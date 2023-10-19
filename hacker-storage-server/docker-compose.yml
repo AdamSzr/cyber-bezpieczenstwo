@@ -1,0 +1,8 @@
+version: '1.1'
+services:
+  hacker-storage:
+    restart: 'always'
+    image: 'hacker-storage-server:latest'
+    ports:
+      - 9000:3000
+    container_name: 'hacker-storage-app'
