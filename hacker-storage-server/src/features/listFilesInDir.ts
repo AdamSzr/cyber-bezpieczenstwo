@@ -1,3 +1,4 @@
+import { API_HOST } from '@/config';
 import fs from 'fs';
 import path from 'path';
 
@@ -11,7 +12,7 @@ export function listFilesInDirectory(directoryPath: string) {
         return {
             filePath:e,
             type:stats.isFile()?"file":'dir',
-            url: `http://adam.main.pc:3000/api/victims?file=${e}`
+            url: `${API_HOST}/api/victims?file=${e}`
         }
     } )
   }catch(e){

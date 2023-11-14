@@ -1,3 +1,4 @@
+import { API_HOST } from '@/config'
 import { createFileDriveHandler } from '@/features/createFileHandler'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -21,7 +22,7 @@ export default async function handler(
         if(!createAndWrite) return res.status(400).json({ status:'FAIL' ,error: `Cannot write data` })
 
         await createAndWrite(data)
-        res.status(200).json({ status:'OK', path:`http://adam.main.pc:3000/api/victims?file=`+fileName})
+        res.status(200).json({ status:'OK', path:`${API_HOST}/api/victims?file=`+fileName})
     }
 
     if(req.method?.toLowerCase() == 'get'){
