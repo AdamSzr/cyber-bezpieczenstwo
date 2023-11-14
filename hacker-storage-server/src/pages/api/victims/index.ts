@@ -4,6 +4,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 export type ResponseData = {
   status:'OK'|'FAIL',
   error?:string
+  path?:string,
 }
 
 export default async function handler(
@@ -20,7 +21,7 @@ export default async function handler(
         if(!createAndWrite) return res.status(400).json({ status:'FAIL' ,error: `Cannot write data` })
 
         await createAndWrite(data)
-        res.status(200).json({ status:'OK'})
+        res.status(200).json({ status:'OK', path:`http://adam.main.pc:3000/api/victims?file=`+fileName})
     }
 
     if(req.method?.toLowerCase() == 'get'){
@@ -30,7 +31,7 @@ export default async function handler(
 
         if(!readFile) return res.status(400).json({ status:'FAIL' ,error: `Cannot read data` })
 
-        const data = await readFile()
+        const data = await readFile().then(it => JSON.parse(it))
         res.status(200).send(data)
     }
 }
